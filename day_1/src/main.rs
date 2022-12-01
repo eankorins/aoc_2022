@@ -36,7 +36,10 @@ fn main() {
     elves.push(elf);
     elves.sort_by(|a, b| b.calories.cmp(&a.calories));
     let best_elf = elves[0];
+    let elf2 = elves[1];
+    let elf3 = elves[2];
 
+    let total = best_elf.calories + elf2.calories + elf3.calories;
     let msg = format!("{} {}", best_elf.idx, best_elf.calories);
-    println!("{msg}");
+    println!("{msg} {total}");
 }
