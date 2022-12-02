@@ -59,9 +59,19 @@ fn main() {
             _ => panic!("I'm PANICKING"),
         };
         let me = match me_shape {
-            "X" => Shape::Rock,
-            "Y" => Shape::Paper,
-            "Z" => Shape::Scissors,
+            "X" => match op {
+                Shape::Rock => Shape::Scissors,
+                Shape::Paper => Shape::Rock,
+                Shape::Scissors => Shape::Paper,
+                _ => panic!("PANICKING againz"),
+            },
+            "Y" => op,
+            "Z" => match op {
+                Shape::Rock => Shape::Paper,
+                Shape::Paper => Shape::Scissors,
+                Shape::Scissors => Shape::Rock,
+                _ => panic!("PANICKING againz"),
+            },
             _ => panic!("I'm PANICKING"),
         };
 
