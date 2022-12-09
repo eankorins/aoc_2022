@@ -6,6 +6,7 @@ use std::fs;
 #[derive(Debug, Clone, PartialEq)]
 struct Backpack {
     idx: usize,
+    items: Vec<u32>,
     left: Vec<u32>,
     right: Vec<u32>,
 }
@@ -31,6 +32,7 @@ fn main() {
 
         let bp = Backpack {
             idx: 1,
+            items: items.clone(),
             left: left.to_vec(),
             right: right.to_vec(),
         };
@@ -38,13 +40,19 @@ fn main() {
     }
 
     let mut sum = 0;
-    for bp in backpacks {
-        println!("{:?}", bp);
-        let left_set: HashSet<u32> = HashSet::from_iter(bp.left);
-        let right_set: HashSet<u32> = HashSet::from_iter(bp.right);
-        let union = left_set.intersection(&right_set);
-        let bp_sum: u32 = union.sum();
-        sum += bp_sum;
+    let groups = backpacks.chunks(3);
+    for grp in groups {
+        let mut group_set: HashSet<u32> = HashSet::new();
+        let set_1: HashSet<&u32> = HashSet::from_iter(&grp[0].items);
+        let set_2: HashSet<&u32> = HashSet::from_iter(&grp[1].items);
+        let set_3: HashSet<&u32> = HashSet::from_iter(&grp[2].items);
+        let intersect = set_1.intersection(&set_2);
+        let result: Vec<u32> = intersect
+            .filter(move |i| set_3.contains(*i))
+            .map(|i| **i)
+            .collect::<Vec<u32>>();
+        println!("{:?}", result);
+        sum += result[0];
     }
     println!("{:?}", sum)
 }
